@@ -8,8 +8,9 @@ const session = require("express-session");
 const database = require("better-sqlite3");
 const crypto = require("crypto");
 
-const indexRouter = require('./routes/index');
+const homeRouter = require('./routes/home');
 const usersRouter = require('./routes/users');
+const problemRouter = require('./routes/problem');
 
 const app = express();
 const db = new database("database.db");
@@ -53,8 +54,9 @@ app.use(session({
     }
 }));
 
-app.use('/', indexRouter);
+app.use('/', homeRouter);
 app.use('/users', usersRouter);
+app.use('/problem', problemRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

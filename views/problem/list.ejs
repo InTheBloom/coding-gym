@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem List - Coding gym</title>
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">Coding gym</a></h1>
+    </header>
+
+    <main>
+        <div class="dashboard-header">
+            <h2>Problem List</h2>
+        </div>
+
+        <div class="problems-by-category">
+            <% Object.keys(problemsByCategory).sort().forEach(category => { %>
+                <div class="category-section">
+                    <% const publishedProblemCount = problemsByCategory[category].filter(e => e.is_published).length %>
+                    <h3><%= category || 'Uncategorized' %></h3>
+
+                    <!-- カテゴリの公開問題が無い -->
+                    <% if (publishedProblemCount === 0) { %>
+                        <div class="no-problems">
+                            <h3>No problems available yet.</h3>
+                            <p>Check back later for new challenges!</p>
+                        </div>
+                    <% } else { %>
+                        <span>Total Problems: <%= publishedProblemCount %></span>
+                    <% } %>
+
+                    <div class="problems-grid">
+                        <% problemsByCategory[category].forEach(problem => { %>
+                        <% if (problem.is_published) { %>
+                            <div class="problem-card">
+                                <div class="problem-info">
+                                    <h4>
+                                        <a href="/problem/<%= problem.problem_number %>">
+                                            Problem <%= problem.problem_number %>: <%= problem.title %>
+                                        </a>
+                                    </h4>
+                                    <div class="problem-meta">
+                                        <span>Points: <%= problem.points %></span>
+                                        <span>Published: <%= new Date(problem.created_at).toLocaleDateString("ja-JP") %></span>
+                                    </div>
+                                </div>
+                                <!-- TODO: 統計情報の表示 -->
+                            </div>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+    </main>
+</body>
+</html>

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problem <%= problem.problem_number %> - <%= problem.title %></title>
+    <title>Problem <%= problem.problem_number %>: <%= problem.title %> - Coding gym</title>
 </head>
 <body>
     <header>
         <h1><a href="/">Coding gym</a></h1>
         <nav>
-            <a href="/">Home</a>
+            <a href="/problem">back to problem list</a>
         </nav>
     </header>
 
@@ -19,7 +19,7 @@
             <div class="problem-meta">
                 <span>Category: <%= problem.category %></span>
                 <span>Points: <%= problem.points %></span>
-                <span>Published: <%= new Date(problem.created_at).toLocaleDateString() %></span>
+                <span>Published: <%= new Date(problem.created_at).toLocaleDateString("ja-JP") %></span>
             </div>
         </div>
 
