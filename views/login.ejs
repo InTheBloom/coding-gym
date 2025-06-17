@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - Coding gym</title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">Coding gym</a></h1>
+    </header>
+
+    <main>
+        <h2>ログイン</h2>
+
+        <% if (error) { %>
+            <div class="error-message" style="color: red;">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <div>
+                <label for="username">ユーザ名:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <button type="submit">ログイン</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
+
