@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Project Euler Clone</title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">Coding gym</a></h1>
+        <div class="user-info">
+            <span>Welcome back, <%= user.username %>!</span>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="dashboard-header">
+            <h2>Problems Dashboard</h2>
+            <div class="stats">
+                <span>Total Problems: <%= Object.values(problemsByCategory).flat().length %></span>
+            </div>
+        </div>
+
+        <div class="problems-by-category">
+            <% Object.keys(problemsByCategory).sort().forEach(category => { %>
+                <div class="category-section">
+                    <h3><%= category || 'Uncategorized' %></h3>
+                    <div class="problems-grid">
+                        <% problemsByCategory[category].forEach(problem => { %>
+                            <div class="problem-card">
+                                <div class="problem-info">
+                                    <h4>
+                                        <a href="/problem/<%= problem.problem_number %>">
+                                            Problem <%= problem.problem_number %>: <%= problem.title %>
+                                        </a>
+                                    </h4>
+                                    <div class="problem-meta">
+                                        <span>Points: <%= problem.points %></span>
+                                        <span>Published: <%= new Date(problem.created_at).toLocaleDateString() %></span>
+                                    </div>
+                                </div>
+                                <!-- TODO: 統計情報の表示 -->
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <% if (Object.keys(problemsByCategory).length === 0) { %>
+            <div class="no-problems">
+                <h3>No problems available yet.</h3>
+                <p>Check back later for new challenges!</p>
+            </div>
+        <% } %>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project Euler Clone</p>
+    </footer>
+</body>
+</html>

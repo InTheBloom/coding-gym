@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem <%= problem.problem_number %> - <%= problem.title %></title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">Coding gym</a></h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="problem-header">
+            <h2>Problem <%= problem.problem_number %>: <%= problem.title %></h2>
+            <div class="problem-meta">
+                <span>Category: <%= problem.category %></span>
+                <span>Points: <%= problem.points %></span>
+                <span>Published: <%= new Date(problem.created_at).toLocaleDateString() %></span>
+            </div>
+        </div>
+
+        <div class="problem-description">
+            <h3>Description</h3>
+            <div>
+                <%- problem.description.replace(/\n/g, '<br>') %>
+            </div>
+        </div>
+
+        <div class="answer-form">
+            <h3>Your Solution</h3>
+            <form action="/submit/<%= problem.problem_number %>" method="POST">
+                <div>
+                    <label for="answer">Answer:</label>
+                    <input type="text" id="answer" name="answer" required>
+                </div>
+                <div>
+                    <label for="code">Code (optional):</label>
+                    <textarea id="code" name="code" rows="10" cols="80" placeholder="Your solution code..."></textarea>
+                </div>
+                <div>
+                    <button type="submit">Submit Answer</button>
+                </div>
+            </form>
+        </div>
+
+    </main>
+</body>
+</html>
