@@ -1,4 +1,5 @@
 const express = require('express');
+const submitRouter = require('./submit');
 const router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -34,5 +35,7 @@ router.get('/:id', function(req, res, next) {
         }
     });
 });
+
+router.use('/:id/submit', submitRouter);
 
 module.exports = router;

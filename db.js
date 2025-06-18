@@ -1,5 +1,6 @@
 const Database = require('better-sqlite3');
 const db = new Database('database.db');
+db.pragma('foreign_keys = ON');
 
 function initializeSchema() {
     db.exec(`
@@ -18,6 +19,17 @@ function initializeSchema() {
             points INTEGER DEFAULT 100,
             is_published BOOLEAN DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            problem_id INTEGER NOT NULL,
+            code TEXT,
+            is_correct BOOLEAN NOT NULL,
+            feedback TEXT NOT NULL,
+            submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (problem_id) REFERENCES problems(id)
         );
     `);
 }

@@ -12,7 +12,7 @@ const enforceLogin = require('./middlewares/enforce-login');
 
 const homeRouter = require('./routes/home');
 const usersRouter = require('./routes/users');
-const problemRouter = require('./routes/problem');
+const problemRouter = require('./routes/problem/problem');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 
