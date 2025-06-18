@@ -9,9 +9,8 @@
     <header>
         <h1><a href="/">Coding gym</a></h1>
         <div class="user-info">
-            <span>おかえりなさい、<%= user.username %>！</span>
             <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
+            <%- include('partials/header/logout-button') %>
         </div>
     </header>
 

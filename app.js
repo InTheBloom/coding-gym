@@ -8,30 +8,17 @@ const session = require("express-session");
 const database = require("better-sqlite3");
 const crypto = require("crypto");
 
+const enforceLogin = require('./middlewares/enforce-login');
+
 const homeRouter = require('./routes/home');
 const usersRouter = require('./routes/users');
 const problemRouter = require('./routes/problem');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 
+const { db, initializeSchema } = require("./db.js");
 const app = express();
-const db = new database("database.db");
-db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-    CREATE TABLE IF NOT EXISTS problems (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        problem_number INTEGER UNIQUE NOT NULL,
-        title TEXT NOT NULL,
-        description TEXT NOT NULL,
-        category TEXT,
-        points INTEGER DEFAULT 100,
-        is_published BOOLEAN DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-`);
+initializeSchema();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,15 +35,22 @@ app.use(session({
     secret: process.env.SESSION_SECRET || "fallback-secret",
     resave: false,
     saveUninitialized: false,
+    rolling: true,
     cookie: {
         httpOnly: true,
         maxAge: 14 * 24 * 60 * 60 * 1000,
     }
 }));
 
+// 未ログインルータ
+app.use('/login', loginRouter);
+
+app.use('/', enforceLogin);
+// ログイン済みルータ
 app.use('/', homeRouter);
 app.use('/users', usersRouter);
 app.use('/problem', problemRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
