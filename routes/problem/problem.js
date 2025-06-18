@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:problem_number', function(req, res, next) {
     res.render('problem/detail', {
         problem: {
             id: 1,
@@ -36,6 +36,6 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-router.use('/:id/submit', submitRouter);
+router.use('/:problem_number/submit', submitRouter);
 
 module.exports = router;

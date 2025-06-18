@@ -6,7 +6,7 @@ const crypto = require("crypto");
 router.get('/', function(req, res, next) {
     // ログイン状態でアクセスしたらリダイレクト
     if (req.session.userId) {
-        res.redirect("/");
+        return res.redirect("/");
     }
 
     res.render('login', {

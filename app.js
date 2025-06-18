@@ -7,6 +7,7 @@ const logger = require('morgan');
 const session = require("express-session");
 const database = require("better-sqlite3");
 const crypto = require("crypto");
+const formData = require('express-form-data');
 
 const enforceLogin = require('./middlewares/enforce-login');
 
@@ -25,6 +26,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+// file upload
+app.use(formData.parse({
+    uploadDir: path.join(__dirname, 'tmp'),
+    autoClean: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

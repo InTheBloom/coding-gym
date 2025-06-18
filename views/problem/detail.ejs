@@ -32,10 +32,10 @@
 
         <div class="answer-form">
             <h3>Your Solution</h3>
-            <form action="/problem/<%= problem.id %>/submit" method="POST">
+            <form action="/problem/<%= problem.problem_number %>/submit" method="POST" enctype="multipart/form-data">
                 <div>
-                    <label for="answer">Answer:</label>
-                    <input type="text" id="answer" name="answer" required>
+                    <label for="answer">Answer File:</label>
+                    <input type="file" id="answer_file" name="answer_file" required>
                 </div>
                 <div>
                     <label for="code">Code (optional):</label>
