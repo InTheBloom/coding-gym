@@ -2,9 +2,10 @@ const express = require('express');
 const submitRouter = require('./submit');
 const router = express.Router();
 const { db } = require('../../db.js');
+const mdRender = require('../../utils/md-render');
 
 router.get('/', function(req, res, next) {
-    const allProblems = db.prepare('SELECT * FROM problems ORDER BY problem_number').all();
+    const allProblems = db.prepare('SELECT id, problem_number, title, category, points, is_published, created_at FROM problems ORDER BY problem_number').all();
     const problemsByCategory = {};
     for (const p of allProblems) {
         const cate = p.category;
@@ -21,6 +22,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/:problem_number', function(req, res, next) {
     const problem = db.prepare('SELECT * FROM problems WHERE problem_number = ?').get(req.params.problem_number);
+
+    problem.description = mdRender(problem.description);
 
     if (!problem) {
         console.error("問題取得失敗");
