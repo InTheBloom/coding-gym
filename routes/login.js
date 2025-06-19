@@ -9,9 +9,7 @@ router.get('/', function(req, res, next) {
         return res.redirect("/");
     }
 
-    res.render('login', {
-        error: undefined
-    });
+    res.render('login');
 });
 
 router.post('/', function(req, res, next) {
@@ -22,7 +20,7 @@ router.post('/', function(req, res, next) {
 
     if (!foundUser || hashedPassword !== foundUser.password_hash) {
         res.render('login', {
-            error: "ユーザ名またはパスワードが違います。"
+            errorMessage: "ユーザ名またはパスワードが違います。"
         });
         return;
     }

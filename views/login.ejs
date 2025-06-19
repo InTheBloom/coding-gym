@@ -1,3 +1,4 @@
+<% const ROOT = `${process.cwd()}/views`; %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,17 +8,12 @@
 </head>
 <body>
     <header>
-        <h1><a href="/">Coding gym</a></h1>
+        <%- include(`${ROOT}/partials/header/sitename`) %>
     </header>
+    <%- include(`${ROOT}/partials/messages`) %>
 
     <main>
         <h2>ログイン</h2>
-
-        <% if (error) { %>
-            <div class="error-message" style="color: red;">
-                <%= error %>
-            </div>
-        <% } %>
 
         <form action="/login" method="POST">
             <div>

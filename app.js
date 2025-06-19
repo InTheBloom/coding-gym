@@ -12,7 +12,6 @@ const formData = require('express-form-data');
 const enforceLogin = require('./middlewares/enforce-login');
 
 const homeRouter = require('./routes/home');
-const usersRouter = require('./routes/users');
 const problemRouter = require('./routes/problem/problem');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
@@ -48,13 +47,23 @@ app.use(session({
     }
 }));
 
+// message表示用ミドルウェア
+app.use(function(req, res, next) {
+    // flush message
+    res.locals.errorMessage = req.session.errorMessage;
+    res.locals.successMessage = req.session.successMessage;
+
+    delete req.session.errorMessage;
+    delete req.session.successMessage;
+    next();
+});
+
 // 未ログインルータ
 app.use('/login', loginRouter);
 
 app.use('/', enforceLogin);
 // ログイン済みルータ
 app.use('/', homeRouter);
-app.use('/users', usersRouter);
 app.use('/problem', problemRouter);
 app.use('/logout', logoutRouter);
 

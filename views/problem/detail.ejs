@@ -1,3 +1,4 @@
+<% const ROOT = `${process.cwd()}/views`; %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,11 +8,12 @@
 </head>
 <body>
     <header>
-        <h1><a href="/">Coding gym</a></h1>
+        <%- include(`${ROOT}/partials/header/sitename`) %>
         <nav>
             <a href="/problem">back to problem list</a>
         </nav>
     </header>
+    <%- include(`${ROOT}/partials/messages`) %>
 
     <main>
         <div class="problem-header">
