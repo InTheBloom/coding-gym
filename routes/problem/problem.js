@@ -1,39 +1,34 @@
 const express = require('express');
 const submitRouter = require('./submit');
 const router = express.Router();
+const { db } = require('../../db.js');
 
 router.get('/', function(req, res, next) {
-    res.render('problem/list', {
-        problemsByCategory: {
-            "basic data processing": [
-                {
-                    id: 1,
-                    problem_number: 1,
-                    title: "Hello, World!",
-                    description: "Hello World!という文字列を出力してください。",
-                    category: "basic data processing",
-                    points: 100,
-                    is_published: 1,
-                    created_at: "2017-12-05 00:00:00",
-                }
-            ]
+    const allProblems = db.prepare('SELECT * FROM problems ORDER BY problem_number').all();
+    const problemsByCategory = {};
+    for (const p of allProblems) {
+        const cate = p.category;
+
+        if (!problemsByCategory[cate]) {
+            problemsByCategory[cate] = [];
         }
-    });
+
+        problemsByCategory[cate].push(p);
+    }
+
+    res.render('problem/list', { problemsByCategory });
 });
 
 router.get('/:problem_number', function(req, res, next) {
-    res.render('problem/detail', {
-        problem: {
-            id: 1,
-            problem_number: 1,
-            title: "Hello, World!",
-            description: "Hello World!という文字列を出力してください。",
-            category: "basic data processing",
-            points: 100,
-            is_published: 0,
-            created_at: "2017-12-05 00:00:00",
-        }
-    });
+    const problem = db.prepare('SELECT * FROM problems WHERE problem_number = ?').get(req.params.problem_number);
+
+    if (!problem) {
+        console.error("問題取得失敗");
+        req.session.errorMessage = '問題が存在しません。';
+        return res.redirect('/problem');
+    }
+
+    res.render('problem/detail', { problem });
 });
 
 router.use('/:problem_number/submit', submitRouter);

@@ -15,7 +15,7 @@ function initializeSchema() {
             problem_number INTEGER UNIQUE NOT NULL,
             title TEXT NOT NULL,
             description TEXT NOT NULL,
-            category TEXT,
+            category TEXT NOT NULL,
             points INTEGER DEFAULT 100,
             is_published BOOLEAN DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
