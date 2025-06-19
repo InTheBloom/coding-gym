@@ -24,7 +24,7 @@ function initializeSchema() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             problem_id INTEGER NOT NULL,
-            code TEXT,
+            code TEXT NOT NULL,
             is_correct BOOLEAN NOT NULL,
             feedback TEXT NOT NULL,
             submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
