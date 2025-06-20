@@ -1,0 +1,44 @@
+<% const ROOT = `${process.cwd()}/views`; %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submissions of problem <%= problem.problem_number %>: <%= problem.title %> - Coding gym</title>
+
+</head>
+<body>
+    <header>
+        <%- include(`${ROOT}/partials/header/sitename`) %>
+        <nav>
+            <a href="/problem/<%= problem.problem_number %>">back to problem</a>
+        </nav>
+    </header>
+    <%- include(`${ROOT}/partials/messages`) %>
+
+    <main>
+        <h2>Submissions for Problem <%= problem.title %></h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Time</th>
+                    <th>Result</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (const sub of submissions) { %>
+                    <tr>
+                        <td><%= sub.username %></td>
+                        <td><%= new Date(sub.submitted_at).toLocaleString("ja-JP") %></td>
+                        <td><%= sub.is_correct ? "AC" : "WA" %></td>
+                        <td><%= sub.feedback %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

@@ -1,5 +1,6 @@
 const express = require('express');
 const submitRouter = require('./submit');
+const submissionsRouter = require('./submissions');
 const router = express.Router();
 const { db } = require('../../db.js');
 const mdRender = require('../../utils/md-render');
@@ -35,5 +36,6 @@ router.get('/:problem_number', function(req, res, next) {
 });
 
 router.use('/:problem_number/submit', submitRouter);
+router.use('/:problem_number/submissions', submissionsRouter);
 
 module.exports = router;

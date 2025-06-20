@@ -43,7 +43,7 @@ router.post('/', async function(req, res, next) {
         db.prepare(`
             INSERT INTO submissions (user_id, problem_id, code, is_correct, feedback)
             VALUES (?, ?, ?, ?, ?)
-        `).run(req.userId, problem.id, submittedCode, isCorrect ? 1 : 0, feedback);
+        `).run(req.session.userId, problem.id, submittedCode, isCorrect ? 1 : 0, feedback);
     }
     catch (err) {
         console.error("dbへのinsertでエラー: ", err);
@@ -52,7 +52,7 @@ router.post('/', async function(req, res, next) {
     }
 
     // TODO: submissionsへの転送
-    res.redirect(`/problem/${req.params.problem_number}`);
+    res.redirect(`/problem/${req.params.problem_number}/submissions`);
 });
 
 module.exports = router;
