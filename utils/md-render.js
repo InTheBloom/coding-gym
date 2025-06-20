@@ -5,10 +5,11 @@ function renderMarkdownWithKatex(mdText) {
     const md = new MarkdownIt({
         html: true,
         breaks: true,
-        linkify: true,
+        linkify: false,
     }).use(markdownItKatex);
 
-    return md.render(mdText);
+    const lineBreaksNormalizedMdText = mdText.replace(/\r\n?/g, '\n');
+    return md.render(lineBreaksNormalizedMdText);
 }
 
 module.exports = renderMarkdownWithKatex;

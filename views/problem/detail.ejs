@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Problem <%= problem.problem_number %>: <%= problem.title %> - Coding gym</title>
+
+    <link rel="stylesheet" href="/stylesheets/katex/katex.min.css">
 </head>
 <body>
     <header>
@@ -28,7 +30,7 @@
         <div class="problem-description">
             <h3>Description</h3>
             <div>
-                <%- problem.description.replace(/\n/g, '<br>') %>
+                <%- problem.description %>
             </div>
         </div>
 
