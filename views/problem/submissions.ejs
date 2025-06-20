@@ -25,7 +25,7 @@
                     <th>User</th>
                     <th>Time</th>
                     <th>Result</th>
-                    <th>Feedback</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                         <td><%= sub.username %></td>
                         <td><%= new Date(sub.submitted_at).toLocaleString("ja-JP") %></td>
                         <td><%= sub.is_correct ? "AC" : "WA" %></td>
-                        <td><%= sub.feedback %></td>
+                        <td><a href="/problem/<%= problem.problem_number %>/submissions/<%= sub.id %>">detail</a></td>
                     </tr>
                 <% } %>
             </tbody>

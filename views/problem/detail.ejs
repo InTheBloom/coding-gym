@@ -7,6 +7,9 @@
     <title>Problem <%= problem.problem_number %>: <%= problem.title %> - Coding gym</title>
 
     <link rel="stylesheet" href="/stylesheets/katex/katex.min.css">
+
+    <!-- フォームリセッター -->
+    <script>addEventListener("pageshow", (e) => { document.querySelector("form")?.reset(); })</script>
 </head>
 <body>
     <header>

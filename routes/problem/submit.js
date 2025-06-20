@@ -51,7 +51,6 @@ router.post('/', async function(req, res, next) {
         return res.redirect(`/problem/${req.params.problem_number}`);
     }
 
-    // TODO: submissionsへの転送
     res.redirect(`/problem/${req.params.problem_number}/submissions`);
 });
 

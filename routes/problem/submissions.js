@@ -24,4 +24,23 @@ router.get('/', function(req, res, next) {
     res.render("problem/submissions", { problem, submissions });
 });
 
+router.get('/:submission_id', function(req, res, next) {
+    // 個別提出詳細
+    const submission = db.prepare(`
+        SELECT s.*, u.username, p.problem_number, p.title
+        FROM submissions s
+        JOIN users u ON s.user_id = u.id
+        JOIN problems p ON s.problem_id = p.id
+        WHERE s.id = ?
+    `).get(req.params.submission_id);
+
+    if (!submission) {
+        console.error(`不正な提出クエリ id = ${req.params.submission_id}`);
+        req.session.errorMessage = "提出が見つかりません。";
+        return res.redirect(`/problem/${req.params.problem_number}`);
+    }
+
+    res.render("problem/submission", { submission });
+});
+
 module.exports = router;
