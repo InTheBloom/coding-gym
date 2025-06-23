@@ -13,22 +13,14 @@ function loadProblemFromDir(dirPath) {
 
     // Relative = プロジェクトルートからの相対パス
 
-    const publicSampleDirRelative = path.join('public', 'dataset', `${meta.problem_number}`, 'sample');
     const publicTestDirRelative = path.join('public', 'dataset', `${meta.problem_number}`, 'testcase');
     const privateTestDirRelative = path.join('private_dataset', `${meta.problem_number}`, 'testcase');
 
     // mkdir
-    fs.mkdirSync(path.join(__dirname, '..', publicSampleDirRelative), { recursive: true });
     fs.mkdirSync(path.join(__dirname, '..', publicTestDirRelative), { recursive: true });
     fs.mkdirSync(path.join(__dirname, '..', privateTestDirRelative), { recursive: true });
 
     // cp
-    if (meta.sample.input) {
-        fs.cpSync(path.join(dirPath, meta.sample.input), path.join(__dirname, '..', publicSampleDirRelative, meta.sample.input), { force: true });
-    }
-    if (meta.sample.output) {
-        fs.cpSync(path.join(dirPath, meta.sample.output), path.join(__dirname, '..', publicSampleDirRelative, meta.sample.output), { force: true });
-    }
     if (meta.testcase.input) {
         fs.cpSync(path.join(dirPath, meta.testcase.input), path.join(__dirname, '..', publicTestDirRelative, meta.testcase.input), { force: true });
     }
@@ -37,16 +29,16 @@ function loadProblemFromDir(dirPath) {
     }
 
     // db insert用データ
-    const sample_input_file = meta.sample.input ? path.join(publicSampleDirRelative, meta.sample.input) : null;
-    const sample_output_file = meta.sample.output ? path.join(publicSampleDirRelative, meta.sample.output) : null;
+    const sample_input = meta.sample.input ? fs.readFileSync(path.join(dirPath, meta.sample.input), 'utf-8') : null;
+    const sample_output = meta.sample.output ? fs.readFileSync(path.join(dirPath, meta.sample.output), 'utf-8') : null;
     const testcase_input_file = meta.testcase.input ? path.join(publicTestDirRelative, meta.testcase.input) : null;
     const testcase_output_file = meta.testcase.output ? path.join(privateTestDirRelative, meta.testcase.output) : null;
 
     return {
         ...meta,
         description,
-        sample_input_file,
-        sample_output_file,
+        sample_input,
+        sample_output,
         testcase_input_file,
         testcase_output_file,
     };
@@ -88,8 +80,8 @@ function insertProblem(problem) {
             points,
             is_published,
             created_at,
-            sample_input_file,
-            sample_output_file,
+            sample_input,
+            sample_output,
             testcase_input_file,
             testcase_output_file
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -100,8 +92,8 @@ function insertProblem(problem) {
             points = excluded.points,
             is_published = excluded.is_published,
             created_at = excluded.created_at,
-            sample_input_file = excluded.sample_input_file,
-            sample_output_file = excluded.sample_output_file,
+            sample_input = excluded.sample_input,
+            sample_output = excluded.sample_output,
             testcase_input_file = excluded.testcase_input_file,
             testcase_output_file = excluded.testcase_output_file;
     `);
@@ -114,8 +106,8 @@ function insertProblem(problem) {
         problem.points,
         problem.is_published ? 1 : 0,
         problem.created_at,
-        problem.sample_input_file,
-        problem.sample_output_file,
+        problem.sample_input,
+        problem.sample_output,
         problem.testcase_input_file,
         problem.testcase_output_file,
     );

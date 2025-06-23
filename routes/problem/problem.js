@@ -32,6 +32,11 @@ router.get('/:problem_number', function(req, res, next) {
         return res.redirect('/problem');
     }
 
+    // テストケースパス変換
+    if (problem.testcase_input_file) {
+        problem.testcase_input_file = problem.testcase_input_file.replace(/^public\//, '/');
+    }
+
     res.render('problem/detail', { problem });
 });
 
