@@ -19,8 +19,8 @@ function initializeSchema() {
             points INTEGER DEFAULT 100,
             is_published BOOLEAN DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            sample_input_file TEXT,
-            sample_output_file TEXT,
+            sample_input TEXT,
+            sample_output TEXT,
             testcase_input_file TEXT,
             testcase_output_file TEXT
         );

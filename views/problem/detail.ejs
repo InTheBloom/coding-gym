@@ -32,14 +32,39 @@
         </div>
 
         <div class="problem-description">
-            <h3>Description</h3>
             <div>
                 <%- problem.description %>
             </div>
         </div>
 
+        <div class="sample-input">
+            <h3>入力例</h3>
+            <% if (problem.sample_input) { %>
+                <pre><code><%= problem.sample_input %></code></pre>
+            <% } else { %>
+                <p>入力は与えられません。</p>
+            <% } %>
+        </div>
+        <div class="sample-output">
+            <h3>出力例</h3>
+            <% if (problem.sample_output) { %>
+                <pre><code><%= problem.sample_output %></code></pre>
+            <% } else { %>
+                <p>出力はありません。</p>
+            <% } %>
+        </div>
+
+        <div class="input">
+            <h3>入力データ</h3>
+            <% if (problem.testcase_input_file) { %>
+                <a href="<%= problem.testcase_input_file %>" download>入力データをダウンロード</a>
+            <% } else { %>
+                <p>入力は与えられません。</p>
+            <% } %>
+        </div>
+
         <div class="answer-form">
-            <h3>Your Solution</h3>
+            <h3>提出</h3>
             <form action="/problem/<%= problem.problem_number %>/submit" method="POST" enctype="multipart/form-data">
                 <div>
                     <label for="answer">Answer File:</label>
