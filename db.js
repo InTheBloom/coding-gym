@@ -18,7 +18,11 @@ function initializeSchema() {
             category TEXT NOT NULL,
             points INTEGER DEFAULT 100,
             is_published BOOLEAN DEFAULT 0,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            sample_input_file TEXT,
+            sample_output_file TEXT,
+            testcase_input_file TEXT,
+            testcase_output_file TEXT
         );
         CREATE TABLE IF NOT EXISTS submissions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

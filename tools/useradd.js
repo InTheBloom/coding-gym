@@ -1,7 +1,9 @@
 // chatGPT製ユーザーINSERTツール
 
 const crypto = require('crypto');
-const { db } = require('../db');
+const { db, initializeSchema } = require('../db');
+
+initializeSchema();
 
 // 引数の手動パース（例: --username alice --password secret）
 const args = process.argv.slice(2);
