@@ -1,0 +1,68 @@
+<% const ROOT = `${process.cwd()}/views`; %>
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Settings - Coding gym</title>
+
+        <!-- パスワードの表示非表示管理スクリプト -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const toggleBtn1 = document.getElementById('toggle-password-visibility-1');
+                const toggleBtn2 = document.getElementById('toggle-password-visibility-2');
+                const newPasswordInput = document.getElementById('password');
+                const oldPasswordInput = document.getElementById('old_password');
+
+                toggleBtn1.addEventListener('click', () => {
+                    const isVisible = oldPasswordInput.type === 'text';
+                    oldPasswordInput.type = isVisible ? 'password' : 'text';
+                    toggleBtn1.textContent = isVisible ? '表示' : '隠す';
+                });
+                toggleBtn2.addEventListener('click', () => {
+                    const isVisible = newPasswordInput.type === 'text';
+                    newPasswordInput.type = isVisible ? 'password' : 'text';
+                    toggleBtn2.textContent = isVisible ? '表示' : '隠す';
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <%- include(`${ROOT}/partials/header/sitename`) %>
+            <div class="user-info">
+                <a href="/profile">Profile</a>
+                <%- include(`${ROOT}/partials/header/logout-button`) %>
+            </div>
+        </header>
+        <%- include(`${ROOT}/partials/messages`) %>
+
+        <h2>ユーザ名の変更</h2>
+        <form action="/settings/change-username" method="POST">
+            <label for="username">新しいユーザ名:</label>
+            <input type="text" name="username" id="username" required>
+
+            <button type="submit">ユーザ名を変更</button>
+        </form>
+
+        <hr>
+
+        <h2>パスワードの変更</h2>
+        <form action="/settings/change-password" method="POST">
+            <label for="old_password">現在のパスワード:</label>
+            <div>
+                <input type="password" name="old_password" id="old_password" required autocomplete="current-password">
+                <button type="button" id="toggle-password-visibility-1">表示</button>
+            </div>
+
+            <label for="password">新しいパスワード:</label>
+            <div>
+                <input type="password" name="password" id="password" required autocomplete="new-password">
+                <button type="button" id="toggle-password-visibility-2">表示</button>
+            </div>
+
+            <button type="submit">パスワードを変更</button>
+        </form>
+
+    </body>
+</html>

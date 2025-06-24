@@ -40,8 +40,15 @@ router.post('/change-username', (req, res) => {
 });
 
 router.post('/change-password', async (req, res) => {
-    const newPassword = req.body.password;
+    const { password: newPassword, old_password: oldPassword } = req.body;
     const { isValid, reason } = isValidPassword(newPassword);
+
+    // dbのパスワードと一致してるかチェック
+    const foundUser = db.prepare("SELECT id, password_hash FROM users WHERE id = ?").get(req.session.userId);
+    if (!(await bcrypt.compare(oldPassword, foundUser.password_hash))) {
+        req.session.errorMessage = "旧パスワードが違います。";
+        return res.redirect('/settings');
+    }
 
     if (!isValid) {
         req.session.errorMessage = reason;
@@ -50,7 +57,7 @@ router.post('/change-password', async (req, res) => {
 
     try {
         const hash = await bcrypt.hash(newPassword, 10);
-        db.prepare("UPDATE users SET password = ? WHERE id = ?").run(hash, req.session.userId);
+        db.prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(hash, req.session.userId);
         req.session.successMessage = "パスワードを変更しました。";
     } catch (err) {
         console.error(err);

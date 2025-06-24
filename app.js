@@ -15,6 +15,7 @@ const homeRouter = require('./routes/home');
 const problemRouter = require('./routes/problem/problem');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
+const settingsRouter = require('./routes/settings');
 
 const { db, initializeSchema } = require("./db.js");
 const app = express();
@@ -64,6 +65,7 @@ app.use('/login', loginRouter);
 app.use('/', enforceLogin);
 // ログイン済みルータ
 app.use('/', homeRouter);
+app.use('/settings', settingsRouter);
 app.use('/problem', problemRouter);
 app.use('/logout', logoutRouter);
 

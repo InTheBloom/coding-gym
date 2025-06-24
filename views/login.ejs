@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン - Coding gym</title>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleBtn = document.getElementById('toggle-password-visibility');
+            const passwordInput = document.getElementById('password');
+
+            toggleBtn.addEventListener('click', () => {
+                const isVisible = passwordInput.type === 'text';
+                passwordInput.type = isVisible ? 'password' : 'text';
+                toggleBtn.textContent = isVisible ? '表示' : '隠す';
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -18,11 +31,12 @@
         <form action="/login" method="POST">
             <div>
                 <label for="username">ユーザ名:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required autocomplete="username">
             </div>
             <div>
                 <label for="password">パスワード:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+                <button type="button" id="toggle-password-visibility">表示</button>
             </div>
             <div>
                 <button type="submit">ログイン</button>
