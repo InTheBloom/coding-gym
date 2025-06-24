@@ -3,6 +3,9 @@
 const bcrypt = require('bcrypt');
 const { db, initializeSchema } = require('../db');
 
+const { isValidUsername } = require('../utils/validate-username');
+const { isValidPassword } = require('../utils/validate-password');
+
 async function main () {
     initializeSchema();
 
@@ -23,6 +26,17 @@ async function main () {
 
     if (!username || !password) {
         console.error("使い方: node tools/addUser.js --username <名前> --password <パスワード>");
+        process.exit(1);
+    }
+
+    const nv = isValidUsername(username);
+    if (!nv.isValid) {
+        console.error(`${nv.reason}`);
+        process.exit(1);
+    }
+    const pv = isValidPassword(password);
+    if (!pv.isValid) {
+        console.error(`${pv.reason}`);
         process.exit(1);
     }
 
